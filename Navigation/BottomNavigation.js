@@ -3,9 +3,7 @@
 import React from "react";
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {HomeScreen} from "../pages/Home";
-import MapScreen from "../pages/Map";
-import {InformationScreen} from "../pages/Information";
+import {ChatScreen} from "../pages/Home";
 import {Ionicons} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -15,18 +13,15 @@ const Tab = createBottomTabNavigator();
 */
 export default function BottomBar() {
     return (
-        <Tab.Navigator initialRouteName="Home" options={{headerShown: false}}
+        <Tab.Navigator initialRouteName="Chat" options={{headerShown: false}}
                        screenOptions={({route}) => ({
                            tabBarIcon: ({focused, color, size}) => {
                                let iconName;
 
-                               if (route.name === 'Home') {
-                                   iconName = focused ? 'ios-flask' : 'ios-flask-outline';
-                               } else if (route.name === 'Information') {
-                                   iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
-                               }
-                               else if (route.name === 'Map') {
-                                   iconName = focused ? 'ios-map' : 'ios-map-outline';
+                               if (route.name === 'Chat') {
+                                   iconName = focused ? 'chatbox' : 'chatbox-outline';
+                               } else if (route.name === 'Switch User') {
+                                   iconName = focused ? 'person' : 'person-outline';
                                }
 
                                // You can return any component that you like here!
@@ -37,9 +32,8 @@ export default function BottomBar() {
                        })}
         >
 
-            <Tab.Screen name="Home" component={HomeScreen}/>
-            <Tab.Screen name="Information" component={InformationScreen}/>
-            <Tab.Screen name="Map" component={MapScreen}/>
+            <Tab.Screen name="Chat" component={ChatScreen}/>
+            <Tab.Screen name="Switch User" component={ChatScreen}/>
         </Tab.Navigator>
     )
 }

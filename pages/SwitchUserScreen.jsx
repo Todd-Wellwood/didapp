@@ -9,7 +9,7 @@ import {
 /*
 This is the home page
  */
-export function ChatScreen({navigation}) {
+export function SwitchUserScreen({navigation}) {
     return (
             <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={() => { navigation.navigate("ConfirmPurge")}} style={styles.button}>
