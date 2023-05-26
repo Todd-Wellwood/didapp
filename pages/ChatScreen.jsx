@@ -1,24 +1,90 @@
 import {
+    Button,
+    FlatList,
+    KeyboardAvoidingView,
+    ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
-    View
+    TextInput,
+    View,
 } from "react-native";
-import {getName} from "../nameJavaScript";
+import { getName } from "../nameJavaScript";
+import {useEffect, useRef, useState} from "react";
 
+export function ChatScreen({ navigation }) {
+    const flatListRef = useRef(null);
 
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
 
-/*
-This is the home page
- */
-export function ChatScreen({navigation}) {
+    const handleMessageChange = (text) => {
+        setMessage(text);
+        scrollToEnd();
+    };
+
+    const handleSendMessage = () => {
+        // Here you can implement the logic to send the message
+        const newMessage = {
+            name: "\ntest" + ":",
+            message: message,
+        };
+
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+        // Clear the message input
+        setMessage("");
+
+        scrollToEnd();
+    };
+
+    function scrollToEnd() {
+        flatListRef.current.scrollToEnd({ animated: true });
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            scrollToEnd();
+        }, 200);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     return (
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => { getName()}} style={styles.button}>
-                    <Text style={styles.buttonText}>Get currently logged in user</Text>
-                </TouchableOpacity>
+        <View style={{ flex: 1 }} behavior="padding">
+                <FlatList style={{marginBottom:80}}
+                    ref={flatListRef}
+                    data={messages}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Text>{item.name}</Text>
+                            <Text>{item.message}</Text>
+                        </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+
+            <View
+                style={{
+                    paddingTop: 20,
+                    flex: 1,
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                }}
+            >
+                <TextInput
+                    placeholder="Enter your message"
+                    value={message}
+                    onChangeText={handleMessageChange}
+                    style={{ backgroundColor: "#fff", marginTop: 10 }}
+                />
+                <Button title="Send" onPress={handleSendMessage} />
             </View>
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

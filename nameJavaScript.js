@@ -15,9 +15,12 @@
     // Retrieving a variable
     export const getName = async () => {
         try {
-            const name = await AsyncStorage.getItem('name');
+            let name = await AsyncStorage.getItem('name');
             if (name !== null) {
                 console.log('Stored name:', name);
+            }
+            if(name == null){
+                name = "NOT SET";
             }
             return name;
         } catch (error) {

@@ -6,7 +6,7 @@ import {
     View
 } from "react-native";
 import {saveName} from "../nameJavaScript";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 
 
