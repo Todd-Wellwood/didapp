@@ -1,4 +1,5 @@
 import {
+    AppState,
     Button,
     FlatList,
     StyleSheet,
@@ -8,10 +9,10 @@ import {
 } from "react-native";
 import {useEffect, useRef, useState} from "react";
 import {useRoute} from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export function ChatScreen({ navigation }) {
+export function ChatScreen({navigation}) {
     const route = useRoute();
-    //Todo: fix this line
     let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
 
     const flatListRef = useRef(null);
@@ -26,14 +27,14 @@ export function ChatScreen({ navigation }) {
     };
 
     const handleSendMessage = () => {
-        if(name === "NAME_NOT_SET"){
+        if (name === "NAME_NOT_SET") {
             alert("Please set a profile to chat");
             return;
         }
 
         // Here you can implement the logic to send the message
         const newMessage = {
-            name: "\n"+name+":",
+            name: "\n" + name + ":",
             message: message,
         };
 
@@ -46,8 +47,56 @@ export function ChatScreen({ navigation }) {
     };
 
     function scrollToEnd() {
-        flatListRef.current.scrollToEnd({ animated: true });
+        flatListRef.current.scrollToEnd({animated: true});
     }
+
+// Function to save the array of strings to AsyncStorage
+    const saveArrayToAsyncStorage = async (array) => {
+        try {
+            await AsyncStorage.setItem('messages', JSON.stringify(array));
+            console.log('Array of strings saved successfully!');
+        } catch (error) {
+            console.log('Error saving array of strings:', error);
+        }
+    };
+
+    // Function to load the array of strings from AsyncStorage
+    const loadArrayFromAsyncStorage = async () => {
+        try {
+            const value = await AsyncStorage.getItem('messages');
+            if (value !== null) {
+                const array = JSON.parse(value);
+                console.log('Array of strings loaded successfully!' + array);
+                // Update your state or perform any necessary operations with the loaded array
+                setMessages(array);
+            }
+        } catch (error) {
+            console.log('Error loading array of strings:', error);
+        }
+    };
+
+// Listen for app state changes
+    const handleAppStateChange = (nextAppState) => {
+        if (nextAppState === 'background' || nextAppState === 'inactive') {
+            // App is going to the background or becoming inactive
+            saveArrayToAsyncStorage(messages);
+        }
+    };
+
+// Add the listener for app state changes
+    useEffect(() => {
+        AppState.addEventListener('change', handleAppStateChange);
+
+        // Load the array of strings when the app is opened
+        loadArrayFromAsyncStorage();
+
+        // Clean up the listener when the component unmounts
+        return () => {
+            AppState.removeEventListener('change', handleAppStateChange);
+        };
+    }, []); // The empty dependency array ensures this effect runs only once during component mount
+
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -60,18 +109,18 @@ export function ChatScreen({ navigation }) {
     }, []);
 
     return (
-        <View style={{ flex: 1 }} behavior="padding">
-                <FlatList style={{marginBottom:80}}
-                    ref={flatListRef}
-                    data={messages}
-                    renderItem={({ item }) => (
-                        <View>
-                            <Text>{item.name}</Text>
-                            <Text>{item.message}</Text>
-                        </View>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                />
+        <View style={{flex: 1}} behavior="padding">
+            <FlatList style={{marginBottom: 80}}
+                      ref={flatListRef}
+                      data={messages}
+                      renderItem={({item}) => (
+                          <View>
+                              <Text>{item.name}</Text>
+                              <Text>{item.message}</Text>
+                          </View>
+                      )}
+                      keyExtractor={(item, index) => index.toString()}
+            />
 
             <View
                 style={{
@@ -87,9 +136,9 @@ export function ChatScreen({ navigation }) {
                     placeholder="Enter your message"
                     value={message}
                     onChangeText={handleMessageChange}
-                    style={{ backgroundColor: "#fff", marginTop: 10 }}
+                    style={{backgroundColor: "#fff", marginTop: 10}}
                 />
-                <Button title="Send" onPress={handleSendMessage} />
+                <Button title="Send" onPress={handleSendMessage}/>
             </View>
         </View>
     );
