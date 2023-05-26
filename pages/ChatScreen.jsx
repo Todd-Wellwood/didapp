@@ -4,6 +4,8 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
+import {getName} from "../nameJavaScript";
+
 
 
 /*
@@ -12,12 +14,8 @@ This is the home page
 export function ChatScreen({navigation}) {
     return (
             <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => { navigation.navigate("ConfirmPurge")}} style={styles.button}>
-                    <Text style={styles.buttonText}>Purge Records</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { navigation.navigate("ConfirmationLogout")}} style={styles.button}>
-                    <Text style={styles.buttonText}>Sign out</Text>
+                <TouchableOpacity onPress={() => { getName()}} style={styles.button}>
+                    <Text style={styles.buttonText}>Get currently logged in user</Text>
                 </TouchableOpacity>
             </View>
     )

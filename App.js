@@ -18,7 +18,7 @@ function App() {
         //This is used to provide navigation between different pages
         <NavigationContainer>
             <Stack.Navigator initialRouteName="BottomNavigation">
-                <Stack.Screen name="Home Screen" component={ChatScreen} options={{ headerShown: false }}/>
+                <Stack.Screen name="Chat Screen" component={ChatScreen} options={{ headerShown: false }}/>
                 <Stack.Screen name="Switch User" component={SwitchUserScreen} options={{ headerShown: false }}/>
                 <Stack.Screen name="BottomNavigation" component={BottomBar} options={{ headerShown: false }} />
             </Stack.Navigator>

@@ -1,26 +1,40 @@
 import {
+    Button,
     StyleSheet,
-    Text,
+    Text, TextInput,
     TouchableOpacity,
     View
 } from "react-native";
+import {saveName} from "../nameJavaScript";
+import {useEffect, useState} from "react";
+
 
 
 /*
 This is the home page
  */
 export function SwitchUserScreen({navigation}) {
-    return (
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => { navigation.navigate("ConfirmPurge")}} style={styles.button}>
-                    <Text style={styles.buttonText}>Purge Records</Text>
-                </TouchableOpacity>
+    const [name, setName] = useState('');
 
-                <TouchableOpacity onPress={() => { navigation.navigate("ConfirmationLogout")}} style={styles.button}>
-                    <Text style={styles.buttonText}>Sign out</Text>
-                </TouchableOpacity>
-            </View>
-    )
+    const handleSaveName = (text) => {
+        setName(text);
+    };
+
+    const postName = () => {
+        saveName(name).then(r => console.log(r));
+    }
+
+    return (
+        <View>
+            <TextInput
+                placeholder="Enter your new name"
+                value={name}
+                onChangeText={handleSaveName}
+            />
+            <Button title="Save" onPress={postName} />
+        </View>
+    );
+
 }
 
 const styles = StyleSheet.create({

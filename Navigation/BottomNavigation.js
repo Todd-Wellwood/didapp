@@ -4,6 +4,7 @@ import React from "react";
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ChatScreen} from "../pages/ChatScreen";
+import {SwitchUserScreen} from "../pages/SwitchUserScreen";
 import {Ionicons} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -33,7 +34,7 @@ export default function BottomBar() {
         >
 
             <Tab.Screen name="Chat" component={ChatScreen}/>
-            <Tab.Screen name="Switch User" component={ChatScreen}/>
+            <Tab.Screen name="Switch User" component={SwitchUserScreen}/>
         </Tab.Navigator>
     )
 }
