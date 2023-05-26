@@ -8,14 +8,19 @@ import {
     TextInput,
     View,
 } from "react-native";
-import { getName } from "../nameJavaScript";
 import {useEffect, useRef, useState} from "react";
+import {useRoute} from "@react-navigation/native";
 
 export function ChatScreen({ navigation }) {
+    const route = useRoute();
+    const { name } = route.params === undefined ? "NO NAME" : route.params ;
+
     const flatListRef = useRef(null);
 
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+
+
 
     const handleMessageChange = (text) => {
         setMessage(text);
@@ -25,7 +30,7 @@ export function ChatScreen({ navigation }) {
     const handleSendMessage = () => {
         // Here you can implement the logic to send the message
         const newMessage = {
-            name: "\ntest" + ":",
+            name: "\n"+name+":",
             message: message,
         };
 

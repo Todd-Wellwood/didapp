@@ -5,7 +5,6 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
-import {saveName} from "../nameJavaScript";
 import {useState} from "react";
 
 
@@ -14,21 +13,21 @@ import {useState} from "react";
 This is the home page
  */
 export function SwitchUserScreen({navigation}) {
-    const [name, setName] = useState('');
+    const [nameValue, setName] = useState('');
 
     const handleSaveName = (text) => {
         setName(text);
     };
 
     const postName = () => {
-        saveName(name).then(r => console.log(r));
+        navigation.navigate("Chat", { name: nameValue })
     }
 
     return (
         <View>
             <TextInput
                 placeholder="Enter your new name"
-                value={name}
+                value={nameValue}
                 onChangeText={handleSaveName}
             />
             <Button title="Save" onPress={postName} />
