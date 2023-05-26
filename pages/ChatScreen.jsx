@@ -13,7 +13,8 @@ import {useRoute} from "@react-navigation/native";
 
 export function ChatScreen({ navigation }) {
     const route = useRoute();
-    const { name } = route.params === undefined ? "NO NAME" : route.params ;
+    //Todo: fix this line
+    const { name } = (route.params === undefined ? "NO NAME" : route.params);
 
     const flatListRef = useRef(null);
 
