@@ -1,8 +1,6 @@
 import {
     Button,
     FlatList,
-    KeyboardAvoidingView,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -14,13 +12,12 @@ import {useRoute} from "@react-navigation/native";
 export function ChatScreen({ navigation }) {
     const route = useRoute();
     //Todo: fix this line
-    const { name } = (route.params === undefined ? "NO NAME" : route.params);
+    let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
 
     const flatListRef = useRef(null);
 
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-
 
 
     const handleMessageChange = (text) => {
@@ -29,6 +26,11 @@ export function ChatScreen({ navigation }) {
     };
 
     const handleSendMessage = () => {
+        if(name === "NAME_NOT_SET"){
+            alert("Please set a profile to chat");
+            return;
+        }
+
         // Here you can implement the logic to send the message
         const newMessage = {
             name: "\n"+name+":",

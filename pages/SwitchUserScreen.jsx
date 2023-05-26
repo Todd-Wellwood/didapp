@@ -1,17 +1,14 @@
 import {
     Button,
     StyleSheet,
-    Text, TextInput,
-    TouchableOpacity,
+    TextInput,
     View
 } from "react-native";
 import {useState} from "react";
 
 
 
-/*
-This is the home page
- */
+
 export function SwitchUserScreen({navigation}) {
     const [nameValue, setName] = useState('');
 
