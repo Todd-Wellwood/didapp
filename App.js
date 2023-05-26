@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {ChatScreen} from "./pages/Home";
+import {ChatScreen} from "./pages/ChatScreen";
 import {SwitchUserScreen} from "./pages/SwitchUserScreen";
 import BottomBar from "./Navigation/BottomNavigation";
 
