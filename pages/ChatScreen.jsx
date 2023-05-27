@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export function ChatScreen({navigation}) {
     const route = useRoute();
     let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
+    let colour = (route.params === undefined) ? "red" : route.params.colour;
 
     const flatListRef = useRef(null);
 
@@ -32,10 +33,13 @@ export function ChatScreen({navigation}) {
             return;
         }
 
+        console.log(colour)
+
         // Here you can implement the logic to send the message
         const newMessage = {
             name: "\n" + name + ":",
             message: message,
+            colourOfMessage: colour
         };
 
         setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -113,10 +117,10 @@ export function ChatScreen({navigation}) {
             <FlatList style={{marginBottom: 80}}
                       ref={flatListRef}
                       data={messages}
-                      renderItem={({item}) => (
+                      renderItem={({ item }) => (
                           <View>
-                              <Text>{item.name}</Text>
-                              <Text>{item.message}</Text>
+                              <Text style={{ color: item.colourOfMessage }}>{item.name}</Text>
+                              <Text style={{ color: item.colourOfMessage }}>{item.message}</Text>
                           </View>
                       )}
                       keyExtractor={(item, index) => index.toString()}

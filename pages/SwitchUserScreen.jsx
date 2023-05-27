@@ -1,33 +1,116 @@
 import {
-    Button,
-    StyleSheet,
-    TextInput,
-    View
+    Button, SafeAreaView,
+    StyleSheet, Text, TextInput, TouchableWithoutFeedback, View
 } from "react-native";
 import {useState} from "react";
 
 
-
-
 export function SwitchUserScreen({navigation}) {
     const [nameValue, setName] = useState('');
+    const [colourValue, setColour] = useState('#FFF');
 
     const handleSaveName = (text) => {
         setName(text);
     };
 
-    const postName = () => {
-        navigation.navigate("Chat", { name: nameValue })
+
+    const handleColorChange = (color) => {
+        setColour(color);
+    };
+
+    const postAccount = () => {
+        navigation.navigate("Chat", {name: nameValue, colour: colourValue})
     }
+
+    const colorOptions = [
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'blue',
+        'indigo',
+        'violet',
+        'black',
+        'white',
+        'gray',
+        'lightgray',
+        'darkgray',
+        'purple',
+        'pink',
+        'cyan',
+        'magenta',
+        'beige',
+        'gold',
+        'silver',
+        'brown',
+        'olive',
+        'navy',
+    ];
 
     return (
         <View>
+            <Text>Please enter your name:</Text>
             <TextInput
-                placeholder="Enter your new name"
+                style={{ backgroundColor: '#fff',marginBottom:20 }}
+                placeholder="Enter your name"
                 value={nameValue}
                 onChangeText={handleSaveName}
             />
-            <Button title="Save" onPress={postName} />
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                    {colorOptions.slice(0, colorOptions.length / 2).map((color, index) => (
+                        <TouchableWithoutFeedback
+                            key={index}
+                            onPress={() => handleColorChange(color)}
+                        >
+                            <View
+                                style={{
+                                    borderColor: "black",
+                                    borderWidth: 1,
+                                    backgroundColor: color,
+                                    width: 25,
+                                    height: 25,
+                                    marginRight: 10,
+                                }}
+                            />
+                        </TouchableWithoutFeedback>
+                    ))}
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    {colorOptions.slice(colorOptions.length / 2).map((color, index) => (
+                        <TouchableWithoutFeedback
+                            key={index}
+                            onPress={() => handleColorChange(color)}
+                        >
+                            <View
+                                style={{
+                                    backgroundColor: color,
+                                    borderColor: "black",
+                                    borderWidth: 1,
+                                    width: 25,
+                                    height: 25,
+                                    marginRight: 10,
+                                }}
+                            />
+                        </TouchableWithoutFeedback>
+                    ))}
+                </View>
+
+                <View style={{ marginTop: 20, marginBottom: 20}}>
+                    {colourValue && (
+                        <View
+                            style={{
+                                backgroundColor: colourValue,
+                                borderColor: "black",
+                                borderWidth: 1,
+                                width: 100,
+                                height: 100,
+                            }}
+                        />
+                    )}
+                </View>
+            </View>
+            <Button title="Save" onPress={postAccount} />
         </View>
     );
 
