@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "swen325-auth",
-    "slug": "swen325-ass2",
+    "name": "didApp",
+    "slug": "didapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,21 +20,21 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.twshadowninja.swen325ass2"
+      "bundleIdentifier": "com.twshadowninja.didApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.twshadowninja.swen325ass2"
+      "package": "com.twshadowninja.didApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "ceb1d998-a964-4414-8e83-0b4aa668363a"
+        "projectId": "1189fe50-0bd1-4575-b003-287053d0e85f"
       }
     }
   }
