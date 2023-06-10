@@ -18,7 +18,7 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function ChatScreen({navigation}) {
     const route = useRoute();
-    let name = (route.params === undefined) ? "XNAME_NOT_SET" : route.params.name;
+    let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
     let colour = (route.params === undefined) ? "black" : route.params.colour;
 
     // let name = "Todd"
@@ -31,12 +31,8 @@ export function ChatScreen({navigation}) {
     const [messages, setMessages] = useState([]);
 
 
-    const [lastName, setLastName] = useState("");
-
-
     const handleMessageChange = (text) => {
         setMessage(text);
-        scrollToEnd();
     };
 
     const handleSendMessage = () => {
@@ -61,8 +57,6 @@ export function ChatScreen({navigation}) {
 
         // Clear the message input
         setMessage("");
-
-        scrollToEnd();
     };
 
     function scrollToEnd() {
@@ -115,20 +109,33 @@ export function ChatScreen({navigation}) {
         };
     }, []); // The empty dependency array ensures this effect runs only once during component mount
 
+    const handleRenderComplete = () => {
+        scrollToEnd();
+    };
+
     return (
         <View style={{flex: 1}}>
+            {
+                name !== "NAME_NOT_SET" ? (
+                    <View>
+                        <Text style={{ color: "black", fontWeight: "bold", textAlign: "center" }}>
+                            Currently chatting as: {name}
+                        </Text>
+                    </View>
+                ) : null
+            }
             <FlatList
                 style={{flex: 1, marginBottom: 80}}
                 ref={flatListRef}
                 data={messages}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                     const alignment = item.name.slice(0, -1) === name ? "flex-end" : "flex-start";
                     const showName = index === 0 || messages[index - 1]?.name !== item.name;
 
                     return (
-                        <View style={{ alignSelf: alignment }}>
+                        <View style={{alignSelf: alignment}}>
                             {showName && !(item.name.slice(0, -1) === name) && (
-                                <Text style={{ color: "black", marginTop: 5 }}>{item.name}</Text>
+                                <Text style={{color: "black", marginTop: 5}}>{item.name}</Text>
                             )}
 
                             <View
@@ -138,16 +145,17 @@ export function ChatScreen({navigation}) {
                                         backgroundColor:
                                             item.name.slice(0, -1) === name ? "#4B77BE" : "#044F67",
                                         borderColor: item.colourOfMessage,
-                                        marginTop: item.name.slice(0, -1) === name ? 5 : 0,
+                                        marginTop: 2
                                     },
                                 ]}
                             >
-                                <Text style={{ color: "white" }}>{item.message}</Text>
+                                <Text style={{color: "white"}}>{item.message}</Text>
                             </View>
                         </View>
                     );
                 }}
                 keyExtractor={(item, index) => index.toString()}
+                onLayout={() => handleRenderComplete()}
             />
 
 
