@@ -11,10 +11,18 @@ import {useEffect, useRef, useState} from "react";
 import {useRoute} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 export function ChatScreen({navigation}) {
     const route = useRoute();
-    let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
-    let colour = (route.params === undefined) ? "red" : route.params.colour;
+    //let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
+    //let colour = (route.params === undefined) ? "red" : route.params.colour;
+
+    let name = "test"
+    let colour = "red"
 
     const flatListRef = useRef(null);
 
@@ -28,6 +36,9 @@ export function ChatScreen({navigation}) {
     };
 
     const handleSendMessage = () => {
+        if (message === "" || message == null) {
+            return;
+        }
         if (name === "NAME_NOT_SET") {
             alert("Please set a profile to chat");
             return;
@@ -37,7 +48,7 @@ export function ChatScreen({navigation}) {
 
         // Here you can implement the logic to send the message
         const newMessage = {
-            name: "\n" + name + ":",
+            name: name + ":",
             message: message,
             colourOfMessage: colour
         };
@@ -101,7 +112,6 @@ export function ChatScreen({navigation}) {
     }, []); // The empty dependency array ensures this effect runs only once during component mount
 
 
-
     useEffect(() => {
         const interval = setInterval(() => {
             scrollToEnd();
@@ -113,29 +123,22 @@ export function ChatScreen({navigation}) {
     }, []);
 
     return (
-        <View style={{flex: 1}} behavior="padding">
-            <FlatList style={{marginBottom: 80}}
-                      ref={flatListRef}
-                      data={messages}
-                      renderItem={({ item }) => (
-                          <View>
-                              <Text style={{ color: item.colourOfMessage }}>{item.name}</Text>
-                              <Text style={{ color: item.colourOfMessage }}>{item.message}</Text>
-                          </View>
-                      )}
-                      keyExtractor={(item, index) => index.toString()}
+        <View style={{flex: 1}}>
+            <FlatList
+                style={{flex: 1, marginBottom: 80}}
+                ref={flatListRef}
+                data={messages}
+                renderItem={({item}) => (
+                    <View style={[styles.MessageFrame, { alignSelf: 'flex-start' }]}>
+                        <Text style={{color: item.colourOfMessage}}>{item.name}</Text>
+                        <Text style={{color: item.colourOfMessage}}>{item.message}</Text>
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
             />
 
-            <View
-                style={{
-                    paddingTop: 20,
-                    flex: 1,
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                }}
-            >
+
+            <View style={{paddingTop: 20, flex: 1, position: "absolute", bottom: 0, left: 0, right: 0,}}>
                 <TextInput
                     placeholder="Enter your message"
                     value={message}
@@ -146,6 +149,7 @@ export function ChatScreen({navigation}) {
             </View>
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({
@@ -234,5 +238,21 @@ const styles = StyleSheet.create({
         color: "#000000",
         marginLeft: 10,
         alignSelf: 'center'
+    },
+
+    MessageFrame: {
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#CCCCCC',
+        borderRadius: 8,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
     },
 })
