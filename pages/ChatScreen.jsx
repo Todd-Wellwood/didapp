@@ -18,16 +18,20 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function ChatScreen({navigation}) {
     const route = useRoute();
-    //let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
-    //let colour = (route.params === undefined) ? "black" : route.params.colour;
+    let name = (route.params === undefined) ? "XNAME_NOT_SET" : route.params.name;
+    let colour = (route.params === undefined) ? "black" : route.params.colour;
 
-    let name = "Todd"
-    let colour = "red"
+    // let name = "Todd"
+    // let colour = "red"
+
 
     const flatListRef = useRef(null);
 
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+
+
+    const [lastName, setLastName] = useState("");
 
 
     const handleMessageChange = (text) => {
@@ -111,44 +115,38 @@ export function ChatScreen({navigation}) {
         };
     }, []); // The empty dependency array ensures this effect runs only once during component mount
 
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            scrollToEnd();
-        }, 200);
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
-
     return (
         <View style={{flex: 1}}>
             <FlatList
                 style={{flex: 1, marginBottom: 80}}
                 ref={flatListRef}
                 data={messages}
-                renderItem={({item}) => (
-                    //Alignment based on who sent the message
-                    <View style={{alignSelf: item.name.slice(0, -1) === name ? 'flex-end' : 'flex-start'}}>
-                        {!(item.name.slice(0, -1) === name) && (
-                            <Text style={{color: 'black', marginTop: 5}}>
-                                {item.name}
-                            </Text>
-                        )}
+                renderItem={({ item, index }) => {
+                    const alignment = item.name.slice(0, -1) === name ? "flex-end" : "flex-start";
+                    const showName = index === 0 || messages[index - 1]?.name !== item.name;
 
+                    return (
+                        <View style={{ alignSelf: alignment }}>
+                            {showName && !(item.name.slice(0, -1) === name) && (
+                                <Text style={{ color: "black", marginTop: 5 }}>{item.name}</Text>
+                            )}
 
-                        <View style={[styles.MessageFrame, {
-                            backgroundColor: item.name.slice(0, -1) === name ? '#4B77BE' : '#044F67',
-                            borderColor: item.colourOfMessage,
-                            marginTop: item.name.slice(0, -1) === name ? 5 : 0
-                        }]}>
-
-                            <Text style={{color: "white"}}>{item.message}</Text>
-
+                            <View
+                                style={[
+                                    styles.MessageFrame,
+                                    {
+                                        backgroundColor:
+                                            item.name.slice(0, -1) === name ? "#4B77BE" : "#044F67",
+                                        borderColor: item.colourOfMessage,
+                                        marginTop: item.name.slice(0, -1) === name ? 5 : 0,
+                                    },
+                                ]}
+                            >
+                                <Text style={{ color: "white" }}>{item.message}</Text>
+                            </View>
                         </View>
-                    </View>
-                )}
+                    );
+                }}
                 keyExtractor={(item, index) => index.toString()}
             />
 
