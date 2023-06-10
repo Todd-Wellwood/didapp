@@ -18,11 +18,11 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function ChatScreen({navigation}) {
     const route = useRoute();
-    let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
-    let colour = (route.params === undefined) ? "red" : route.params.colour;
+    //let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
+    //let colour = (route.params === undefined) ? "black" : route.params.colour;
 
-    // let name = "test"
-    // let colour = "red"
+    let name = "Todd"
+    let colour = "red"
 
     const flatListRef = useRef(null);
 
@@ -129,14 +129,24 @@ export function ChatScreen({navigation}) {
                 ref={flatListRef}
                 data={messages}
                 renderItem={({item}) => (
-                    //Box style
-                    <View style={[styles.MessageFrame, {
-                        alignSelf: item.name.slice(0, -1) === name ? 'flex-end' : 'flex-start',
-                        backgroundColor: item.name.slice(0, -1) === name ? '#4B77BE' : '#044F67',
-                        borderColor: item.colourOfMessage
-                    }]}>
-                        <Text style={{color: "white"}}>{item.name}</Text>
-                        <Text style={{color: "white"}}>{item.message}</Text>
+                    //Alignment based on who sent the message
+                    <View style={{alignSelf: item.name.slice(0, -1) === name ? 'flex-end' : 'flex-start'}}>
+                        {!(item.name.slice(0, -1) === name) && (
+                            <Text style={{color: 'black', marginTop: 5}}>
+                                {item.name}
+                            </Text>
+                        )}
+
+
+                        <View style={[styles.MessageFrame, {
+                            backgroundColor: item.name.slice(0, -1) === name ? '#4B77BE' : '#044F67',
+                            borderColor: item.colourOfMessage,
+                            marginTop: item.name.slice(0, -1) === name ? 5 : 0
+                        }]}>
+
+                            <Text style={{color: "white"}}>{item.message}</Text>
+
+                        </View>
                     </View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
@@ -248,7 +258,6 @@ const styles = StyleSheet.create({
     MessageFrame: {
         backgroundColor: '#FFFFFF',
         padding: 10,
-        marginTop: 20,
         borderWidth: 4,
         borderColor: '#CCCCCC',
         borderRadius: 8,
