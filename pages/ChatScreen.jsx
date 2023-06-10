@@ -18,11 +18,11 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function ChatScreen({navigation}) {
     const route = useRoute();
-    //let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
-    //let colour = (route.params === undefined) ? "red" : route.params.colour;
+    let name = (route.params === undefined) ? "NAME_NOT_SET" : route.params.name;
+    let colour = (route.params === undefined) ? "red" : route.params.colour;
 
-    let name = "test"
-    let colour = "red"
+    // let name = "test"
+    // let colour = "red"
 
     const flatListRef = useRef(null);
 
@@ -129,9 +129,14 @@ export function ChatScreen({navigation}) {
                 ref={flatListRef}
                 data={messages}
                 renderItem={({item}) => (
-                    <View style={[styles.MessageFrame, { alignSelf: 'flex-start' }]}>
-                        <Text style={{color: item.colourOfMessage}}>{item.name}</Text>
-                        <Text style={{color: item.colourOfMessage}}>{item.message}</Text>
+                    //Box style
+                    <View style={[styles.MessageFrame, {
+                        alignSelf: item.name.slice(0, -1) === name ? 'flex-end' : 'flex-start',
+                        backgroundColor: item.name.slice(0, -1) === name ? '#4B77BE' : '#044F67',
+                        borderColor: item.colourOfMessage
+                    }]}>
+                        <Text style={{color: "white"}}>{item.name}</Text>
+                        <Text style={{color: "white"}}>{item.message}</Text>
                     </View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
@@ -243,7 +248,8 @@ const styles = StyleSheet.create({
     MessageFrame: {
         backgroundColor: '#FFFFFF',
         padding: 10,
-        borderWidth: 1,
+        marginTop: 20,
+        borderWidth: 4,
         borderColor: '#CCCCCC',
         borderRadius: 8,
         shadowColor: '#000000',
