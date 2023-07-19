@@ -1,34 +1,14 @@
-# SWEN-325 Assignment two
+# DID App
 
-## Setup:
+DID App, is a mobile application designed to support individuals with Dissociative Identity Disorder (DID) in their journey towards internal communication and harmony. 
+Created with empathy and understanding, this app provides a safe and confidential space for different identities to connect and converse.
 
-## Android emulator install
-First you will need to install an android emulator named same as text bellow, have this running in the background:
-Please make sure this emulator has Google play functionality installed or it won't be able to communicate with the database.
-```
-android_emulator
-```
-## Install NPM - bundled with node js:
-```
-https://phoenixnap.com/kb/install-node-js-npm-on-windows
-```
+The DID App facilitates meaningful conversations between identities through its intuitive interface, allowing them to share thoughts, memories, and emotions. 
+The app allows users to create custom profiles to quickly switch between identities, as well as the ability to customise these profiles
 
-## Run npm install:
-```
-npm install
-```
+The app acknowledges the diverse needs of its users and strives for inclusivity. With customizable features and accessibility options, such as visual aids, text-to-speech functionality, and alternative input methods, 
+The DID App ensures that individuals can tailor their experience to accommodate their unique abilities and preferences.
 
-## Running:
-
-## Running on android
-```
-npm run android
-```
-
-## It will now boot to your emulator
-or you can scan the expo QR code to load it into your phone.
-
-## APK Installation (Recommended)
-Just install the apk included in the repo on an android device - with google play functionality. 
-Note: The map feature may not load on older models of phone, in this case use expo if it doesn't.
+The DID App represents a sincere effort to provide a valuable resource for individuals with DID, assisting them in their journey towards a more cohesive and fulfilling life.
+This was built to help a personal friend of mine with their everyday life.
 
